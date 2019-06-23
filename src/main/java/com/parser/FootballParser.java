@@ -23,11 +23,12 @@ public class FootballParser implements Parser {
         String html = getHtml();
         Document document = Jsoup.parse(html);
         Elements elements = document.getElementsByClass("event__live--icon icon icon--live active active-bet");
+        int i = 0;
         for (Element element : elements) {
             Element div = element.parent();
             Element parentDiv = div.parent();
-            Element leagueEl = parentDiv.getElementsByClass("event__header top").get(0);
-            String league = leagueEl.getElementsByClass("event__titleBox").get(0).text();
+            Element leagueEl = parentDiv.getElementsByClass("event__header").get(i);
+            String league = leagueEl.getElementsByClass("event__title--name").get(0).text();
             Element score = div.getElementsByClass("event__scores fontBold").get(0);
             Elements spans = score.getElementsByTag("span");
             int homeScore = Integer.parseInt(spans.get(0).text());
@@ -39,6 +40,7 @@ public class FootballParser implements Parser {
             Team away = new Team(awayTeam, awayScore, 0);
             Match match = new Match(league, home, away, time);
             matches.add(match);
+            i++;
         }
         return matches;
     }
