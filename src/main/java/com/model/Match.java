@@ -1,19 +1,17 @@
 package com.model;
 
-import java.time.LocalDateTime;
-
 public class Match {
 
     private String league;
     private Team firstTeam;
     private Team secondTeam;
-    private LocalDateTime matchTime;
+    private String time;
 
-    public Match(String league, Team firstTeam, Team secondTeam, LocalDateTime matchTime) {
+    public Match(String league, Team firstTeam, Team secondTeam, String time) {
         this.league = league;
         this.firstTeam = firstTeam;
         this.secondTeam = secondTeam;
-        this.matchTime = matchTime;
+        this.time = time;
     }
 
     public String getLeague() {
@@ -40,12 +38,22 @@ public class Match {
         this.secondTeam = secondTeam;
     }
 
-    public LocalDateTime getMatchTime() {
-        return matchTime;
+    public String getTime() {
+        return time;
     }
 
-    public void setMatchTime(LocalDateTime matchTime) {
-        this.matchTime = matchTime;
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "league='" + league + '\'' +
+                ", firstTeam=" + firstTeam +
+                ", secondTeam=" + secondTeam +
+                ", time=" + time +
+                '}';
     }
 
 }

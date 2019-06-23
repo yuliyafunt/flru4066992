@@ -36,4 +36,13 @@ public class Team {
         this.coefficient = coefficient;
     }
 
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                ", coefficient=" + coefficient +
+                '}';
+    }
+
 }
