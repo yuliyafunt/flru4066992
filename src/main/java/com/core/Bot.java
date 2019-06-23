@@ -11,10 +11,10 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public String getBotUsername() {
-        return null;
+        return "MyScoreParser";
     }
 
     public String getBotToken() {
-        return null;
+        return "843183515:AAHjumPWFpcSQvbCDLjF-4HymxLDlG9xaIw";
     }
 }
