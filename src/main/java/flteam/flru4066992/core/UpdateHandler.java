@@ -1,4 +1,4 @@
-package com.core;
+package flteam.flru4066992.core;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 

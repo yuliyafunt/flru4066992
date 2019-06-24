@@ -1,7 +1,7 @@
-package com.parser.impl;
+package flteam.flru4066992.parser.impl;
 
-import com.model.Match;
-import com.parser.Parser;
+import flteam.flru4066992.model.Match;
+import flteam.flru4066992.parser.Parser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

@@ -1,4 +1,4 @@
-package com.model;
+package flteam.flru4066992.model;
 
 public class Match {
 

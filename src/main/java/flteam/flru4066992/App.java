@@ -1,8 +1,8 @@
-package com;
+package flteam.flru4066992;
 
-import com.model.Match;
-import com.parser.Parser;
-import com.parser.impl.FootballParser;
+import flteam.flru4066992.model.Match;
+import flteam.flru4066992.parser.Parser;
+import flteam.flru4066992.parser.impl.FootballParser;
 
 import java.util.List;
 

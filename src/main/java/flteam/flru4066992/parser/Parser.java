@@ -1,6 +1,6 @@
-package com.parser;
+package flteam.flru4066992.parser;
 
-import com.model.Match;
+import flteam.flru4066992.model.Match;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;

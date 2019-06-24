@@ -1,16 +1,16 @@
-package com.parser.impl;
+package flteam.flru4066992.parser.impl;
 
-import com.model.Match;
-import com.parser.Parser;
+import flteam.flru4066992.model.Match;
+import flteam.flru4066992.parser.Parser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HandballParser implements Parser {
+public class HockeyParser implements Parser {
 
-    private static final String URL = "https://www.myscore.ru/handball/";
+    private static final String URL = "https://www.myscore.ru/hockey/";
 
     @Override
     public List<Match> parse() {
