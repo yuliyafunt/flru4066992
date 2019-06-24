@@ -1,7 +1,9 @@
 package flteam.flru4066992.parser;
 
 import flteam.flru4066992.model.Match;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -16,6 +18,9 @@ public interface Parser {
         chromeOptions.setHeadless(true);
         WebDriver webDriver = new ChromeDriver(chromeOptions);
         webDriver.get(url);
+        webDriver.findElement(By.linkText("LIVE")).click();
+        webDriver.findElements(By.className("expand"))
+                .forEach(WebElement::click);
         String html = webDriver.getPageSource();
         webDriver.close();
         return html;
