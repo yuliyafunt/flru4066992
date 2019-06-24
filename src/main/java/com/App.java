@@ -1,8 +1,8 @@
 package com;
 
 import com.model.Match;
-import com.parser.FootballParser;
 import com.parser.Parser;
+import com.parser.impl.FootballParser;
 
 import java.util.List;
 

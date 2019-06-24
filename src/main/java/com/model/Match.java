@@ -3,14 +3,14 @@ package com.model;
 public class Match {
 
     private String league;
-    private Team firstTeam;
-    private Team secondTeam;
+    private Team homeTeam;
+    private Team awayTeam;
     private String time;
 
-    public Match(String league, Team firstTeam, Team secondTeam, String time) {
+    public Match(String league, Team homeTeam, Team awayTeam, String time) {
         this.league = league;
-        this.firstTeam = firstTeam;
-        this.secondTeam = secondTeam;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
         this.time = time;
     }
 
@@ -22,20 +22,20 @@ public class Match {
         this.league = league;
     }
 
-    public Team getFirstTeam() {
-        return firstTeam;
+    public Team getHomeTeam() {
+        return homeTeam;
     }
 
-    public void setFirstTeam(Team firstTeam) {
-        this.firstTeam = firstTeam;
+    public void setHomeTeam(Team homeTeam) {
+        this.homeTeam = homeTeam;
     }
 
-    public Team getSecondTeam() {
-        return secondTeam;
+    public Team getAwayTeam() {
+        return awayTeam;
     }
 
-    public void setSecondTeam(Team secondTeam) {
-        this.secondTeam = secondTeam;
+    public void setAwayTeam(Team awayTeam) {
+        this.awayTeam = awayTeam;
     }
 
     public String getTime() {
@@ -50,8 +50,8 @@ public class Match {
     public String toString() {
         return "Match{" +
                 "league='" + league + '\'' +
-                ", firstTeam=" + firstTeam +
-                ", secondTeam=" + secondTeam +
+                ", homeTeam=" + homeTeam +
+                ", awayTeam=" + awayTeam +
                 ", time=" + time +
                 '}';
     }

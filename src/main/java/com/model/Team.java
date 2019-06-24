@@ -3,8 +3,8 @@ package com.model;
 public class Team {
 
     private String name;
-    private int score;
-    private double coefficient;
+    private Integer score;
+    private Double coefficient;
 
     public Team(String name, int score, double coefficient) {
         this.name = name;
