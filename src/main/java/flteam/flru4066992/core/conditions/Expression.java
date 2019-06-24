@@ -1,6 +1,9 @@
-package com.core;
+package flteam.flru4066992.core.conditions;
 
-import static com.core.Operator.*;
+
+import java.util.Objects;
+
+import static flteam.flru4066992.core.conditions.Operator.*;
 
 public class Expression {
 
@@ -44,5 +47,25 @@ public class Expression {
 
     public static Expression lessOrEq(Condition condition, String value) {
         return new Expression(condition, value, LTE);
+    }
+
+    @Override
+    public String toString() {
+        return condition.val + " " + operator.value + " " + value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Expression that = (Expression) o;
+        return condition == that.condition &&
+                Objects.equals(value, that.value) &&
+                operator == that.operator;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(condition, value, operator);
     }
 }

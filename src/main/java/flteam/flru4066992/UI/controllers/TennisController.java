@@ -1,4 +1,4 @@
-package com.UI.controllers;
+package flteam.flru4066992.UI.controllers;
 
 import javax.inject.Singleton;
 

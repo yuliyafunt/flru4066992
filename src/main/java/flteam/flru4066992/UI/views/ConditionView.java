@@ -1,11 +1,14 @@
-package com.UI.views;
+package flteam.flru4066992.UI.views;
 
-import com.UI.components.ToggleComponent;
-import com.core.Condition;
+import flteam.flru4066992.UI.components.ToggleComponent;
+import flteam.flru4066992.core.conditions.Condition;
+import flteam.flru4066992.core.conditions.Operator;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -19,16 +22,17 @@ public class ConditionView {
     private final AnchorPane rootPane = new AnchorPane();
     private final GridPane conditionRow = new GridPane();
     private final ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    private final TextField comment = new TextField();
+    private final TextField score = new TextField();
     private final ToggleComponent toggleComponent = new ToggleComponent();
 
-    private final double maxWidth;
+    Image closeImg = new Image(getClass().getResourceAsStream("/close.png"));
+    ImageView imgView = new ImageView(closeImg);
 
-    public ConditionView(double maxWidth) {
-        this.maxWidth = maxWidth;
+    public ConditionView() {
+        buildView();
     }
 
-    public Node getView() {
+    private void buildView() {
         setup();
 
         Set<String> availableConditions = Arrays.stream(Condition.values()).map(c -> c.val).collect(toSet());
@@ -36,16 +40,22 @@ public class ConditionView {
         conditionRow.add(choiceBox, 0, 0);
         conditionRow.add(toggleComponent.getView(), 1, 0);
 
-        TextField score = new TextField();
         score.setPrefWidth(50.0);
 
         conditionRow.add(score, 2, 0);
 
-        comment.setPromptText("Комментарий который бот пришлет вместе с уведомлением");
-        comment.setPrefWidth(600.0);
-        conditionRow.add(comment, 0, 1, 5, 1);
+//        imgView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//
+//            }
+//        });
 
+        conditionRow.add(imgView, 4, 0);
         rootPane.getChildren().add(conditionRow);
+    }
+
+    public Node getView() {
         return rootPane;
     }
 
@@ -55,11 +65,15 @@ public class ConditionView {
         conditionRow.setHgap(5.0);
     }
 
+    public Operator getOperator() {
+        return toggleComponent.getOperator();
+    }
+
     public Condition getCurrentCondition() {
         return Condition.find(choiceBox.getSelectionModel().getSelectedItem());
     }
 
-    public String getComment() {
-        return comment.getText();
+    public String getTextFieldValue() {
+        return score.getText();
     }
 }

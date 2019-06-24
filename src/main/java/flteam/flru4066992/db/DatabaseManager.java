@@ -1,11 +1,11 @@
-package com.db;
+package flteam.flru4066992.db;
 
-import com.entity.User;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import flteam.flru4066992.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

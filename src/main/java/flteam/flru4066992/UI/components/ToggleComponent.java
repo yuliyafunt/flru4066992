@@ -1,6 +1,6 @@
-package com.UI.components;
+package flteam.flru4066992.UI.components;
 
-import com.core.Operator;
+import flteam.flru4066992.core.conditions.Operator;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
@@ -31,10 +31,11 @@ public class ToggleComponent {
         return box;
     }
 
-    public ToggleButton getSelected() {
-        return toggleButtons.stream()
+    public Operator getOperator() {
+        ToggleButton btn = toggleButtons.stream()
                 .filter(ToggleButton::isSelected)
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("One button must be toggled"));
+        return Operator.find(btn.getText());
     }
 }

@@ -1,4 +1,4 @@
-package com.core;
+package flteam.flru4066992.core.conditions;
 
 public enum Condition {
     HOME_TEAM("Хозяева забили"),

@@ -1,7 +1,6 @@
-package com.UI;
+package flteam.flru4066992.UI;
 
-import com.UI.controllers.FootballController;
-import javafx.fxml.FXML;
+import flteam.flru4066992.UI.controllers.FootballController;
 
 import javax.inject.Inject;
 
