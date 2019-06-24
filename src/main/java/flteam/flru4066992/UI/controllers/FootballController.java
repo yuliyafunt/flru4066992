@@ -7,6 +7,7 @@ import flteam.flru4066992.core.conditions.Expression;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
@@ -24,12 +25,20 @@ public class FootballController {
     public VBox conditionContainer;
     public Button addCondition;
     public Button saveFilters;
+    public TextArea commentArea;
 
     @Inject
     private Context context;
 
     public void initialize() {
         setup();
+    }
+
+    private void setup() {
+        conditionContainer.setPadding(new Insets(5.0));
+        conditionContainer.setSpacing(5.0);
+
+        commentArea.setPromptText("Комментарий который бот отправит вместе с условием");
 
         addCondition.setOnMouseClicked(event -> {
             ConditionView view = new ConditionView();
@@ -38,11 +47,6 @@ public class FootballController {
         });
 
         saveFilters.setOnMouseClicked(event -> saveFilter());
-    }
-
-    private void setup() {
-        conditionContainer.setPadding(new Insets(5.0));
-        conditionContainer.setSpacing(5.0);
     }
 
     @FXML
@@ -68,6 +72,7 @@ public class FootballController {
                     break;
             }
         }
+        context.setFilterComment(FOOTBALL, commentArea.getText());
     }
 
     private void saveFilter0(Expression expression) {

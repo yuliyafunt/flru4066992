@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
+import java.util.StringJoiner;
 
 public class Notifier {
 
@@ -20,8 +21,13 @@ public class Notifier {
 
     public void notify(Collection<User> users, Set<Expression> expression, String comment) {
         try {
+            StringJoiner message = new StringJoiner("\n")
+                    .add("Подошло условие:");
+            expression.forEach(e -> message.add(e.toString()));
+            message.add("Комментарий: " + comment);
+
             for (User user : users) {
-                SendMessage m = new SendMessage(user.getChatId(), "Подошло условие: " + comment);
+                SendMessage m = new SendMessage(user.getChatId(), message.toString());
                 bot.execute(m);
             }
         } catch (TelegramApiException e) {
