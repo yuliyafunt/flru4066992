@@ -58,9 +58,4 @@ public class FootballParser implements Parser {
         return league;
     }
 
-    @Override
-    public List<Match> call() throws Exception {
-        return parse();
-    }
-
 }

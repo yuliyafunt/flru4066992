@@ -27,4 +27,9 @@ public interface Parser extends Callable<List<Match>> {
         return html;
     }
 
+    @Override
+    default List<Match> call() {
+        return parse();
+    }
+
 }

@@ -22,8 +22,4 @@ public class BasketballParser implements Parser {
         return matches;
     }
 
-    @Override
-    public List<Match> call() throws Exception {
-        return parse();
-    }
 }
