@@ -5,9 +5,11 @@ import flteam.flru4066992.parser.Parser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class VolleyballParser implements Parser {
 
     private static final String URL = "https://www.myscore.ru/volleyball/";
@@ -20,4 +22,8 @@ public class VolleyballParser implements Parser {
         return matches;
     }
 
+    @Override
+    public List<Match> call() throws Exception {
+        return null;
+    }
 }

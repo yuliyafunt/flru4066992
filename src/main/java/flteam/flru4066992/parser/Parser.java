@@ -8,8 +8,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
-public interface Parser {
+public interface Parser extends Callable<List<Match>> {
 
     List<Match> parse();
 

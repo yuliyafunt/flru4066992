@@ -8,9 +8,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class FootballParser implements Parser {
 
     private static final String URL = "https://www.myscore.ru/";
@@ -54,6 +56,11 @@ public class FootballParser implements Parser {
             }
         }
         return league;
+    }
+
+    @Override
+    public List<Match> call() throws Exception {
+        return parse();
     }
 
 }
