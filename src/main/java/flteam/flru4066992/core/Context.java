@@ -13,7 +13,7 @@ import java.util.Map;
 public class Context {
 
     private final Map<BetType, Filter> filterExpressions = new HashMap<>();
-    private final Map<Long, User> users = new HashMap<>();
+    private final Map<Integer, User> users = new HashMap<>();
 
     public void addNewUser(org.telegram.telegrambots.meta.api.objects.User telegramUser, Long chatId) {
         if (users.containsKey(telegramUser.getId())) {

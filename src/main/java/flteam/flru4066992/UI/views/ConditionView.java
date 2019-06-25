@@ -3,6 +3,7 @@ package flteam.flru4066992.UI.views;
 import flteam.flru4066992.UI.components.ToggleComponent;
 import flteam.flru4066992.core.conditions.Condition;
 import flteam.flru4066992.core.conditions.Operator;
+import flteam.flru4066992.util.ResourceUtil;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
@@ -25,7 +26,7 @@ public class ConditionView {
     private final TextField score = new TextField();
     private final ToggleComponent toggleComponent = new ToggleComponent();
 
-    Image closeImg = new Image(getClass().getResourceAsStream("/close.png"));
+    Image closeImg = ResourceUtil.getImageFromResource("/close.png");
     ImageView imgView = new ImageView(closeImg);
 
     public ConditionView() {

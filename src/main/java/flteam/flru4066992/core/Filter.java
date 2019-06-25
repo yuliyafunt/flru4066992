@@ -11,9 +11,7 @@ public class Filter {
     private String comment;
 
     public void addExpression(Expression expression) {
-        if (!expressions.contains(expression)) {
-            expressions.add(expression);
-        }
+        expressions.add(expression);
     }
 
     public void setComment(String comment) {

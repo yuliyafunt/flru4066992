@@ -9,7 +9,7 @@ import java.util.Objects;
 public class User {
 
     @DatabaseField(id = true)
-    private long id;
+    private Integer id;
 
     @DatabaseField
     private String chatId;
@@ -29,11 +29,11 @@ public class User {
     public User() {
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -82,7 +82,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
+        return id.equals(user.id) &&
                 notify == user.notify &&
                 Objects.equals(chatId, user.chatId) &&
                 Objects.equals(username, user.username) &&

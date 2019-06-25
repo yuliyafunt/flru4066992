@@ -10,10 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Singleton
 public class Reactor {
@@ -22,6 +19,7 @@ public class Reactor {
     private final Context context;
     private final Parser footballParser;
     private final ConditionResolver conditionResolver;
+    private static final long TIMEOUT = TimeUnit.MINUTES.toMillis(1);
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(6);
 
@@ -49,7 +47,7 @@ public class Reactor {
                     Future<List<Match>> footballResult = executorService.submit(footballParser);
                     List<Match> matches = footballResult.get();
                     conditionResolver.accept(matches);
-                    Thread.sleep(60000);
+                    Thread.sleep(TIMEOUT);
                 }
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
