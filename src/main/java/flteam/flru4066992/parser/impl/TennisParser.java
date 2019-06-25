@@ -4,6 +4,7 @@ import flteam.flru4066992.model.Match;
 import flteam.flru4066992.parser.Parser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.WebDriver;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ public class TennisParser implements Parser {
     @Override
     public List<Match> parse() {
         List<Match> matches = new ArrayList<>();
-        String html = getHtml(URL);
+        WebDriver webDriver = getWebDriver(URL);
+        String html = getLiveHtml(webDriver);
         Document document = Jsoup.parse(html);
         return matches;
     }

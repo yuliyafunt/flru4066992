@@ -14,17 +14,26 @@ public interface Parser extends Callable<List<Match>> {
 
     List<Match> parse();
 
-    default String getHtml(String url) {
+    default WebDriver getWebDriver(String url) {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(true);
         WebDriver webDriver = new ChromeDriver(chromeOptions);
         webDriver.get(url);
+        return webDriver;
+    }
+
+    default String getLiveHtml(WebDriver webDriver) {
         webDriver.findElement(By.linkText("LIVE")).click();
         webDriver.findElements(By.className("expand"))
                 .forEach(WebElement::click);
-        String html = webDriver.getPageSource();
-        webDriver.close();
-        return html;
+        return webDriver.getPageSource();
+    }
+
+    default String getCoeffHtml(WebDriver webDriver) {
+        webDriver.findElement(By.linkText("Коэффициенты")).click();
+        webDriver.findElements(By.className("expand"))
+                .forEach(WebElement::click);
+        return webDriver.getPageSource();
     }
 
     @Override
