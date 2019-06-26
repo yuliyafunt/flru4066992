@@ -1,5 +1,7 @@
 package flteam.flru4066992.core.conditions;
 
+import org.jetbrains.annotations.Nullable;
+
 public enum Operator {
     EQUALS("="),
     GT(">"),
@@ -13,12 +15,13 @@ public enum Operator {
         this.value = value;
     }
 
+    @Nullable
     public static Operator find(String v) {
         for (Operator operator : Operator.values()) {
             if(operator.value.equals(v)){
                 return operator;
             }
         }
-        throw new IllegalStateException("Unknown operator: " + v);
+        return null;
     }
 }

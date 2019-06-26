@@ -1,13 +1,15 @@
 package flteam.flru4066992.model;
 
+import java.util.Objects;
+
 public class Match {
 
     private String league;
     private Team homeTeam;
     private Team awayTeam;
-    private String time;
+    private int time;
 
-    public Match(String league, Team homeTeam, Team awayTeam, String time) {
+    public Match(String league, Team homeTeam, Team awayTeam, int time) {
         this.league = league;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -38,12 +40,31 @@ public class Match {
         this.awayTeam = awayTeam;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
+    }
+
+    /**
+     * ATTENTION: time field not participate in equals and hashcode
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Match match = (Match) o;
+        return Objects.equals(league, match.league) &&
+                Objects.equals(homeTeam, match.homeTeam) &&
+                Objects.equals(awayTeam, match.awayTeam);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(league, homeTeam, awayTeam);
     }
 
     @Override

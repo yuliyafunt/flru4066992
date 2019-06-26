@@ -4,56 +4,69 @@ import flteam.flru4066992.UI.views.ConditionView;
 import flteam.flru4066992.core.Context;
 import flteam.flru4066992.core.conditions.Condition;
 import flteam.flru4066992.core.conditions.Expression;
-import javafx.fxml.FXML;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static flteam.flru4066992.core.BetType.FOOTBALL;
 
 @Singleton
 public class FootballController {
 
-    private Collection<ConditionView> views = new ArrayList<>();
+    @Inject
+    private Context context;
 
     public VBox conditionContainer;
     public Button addCondition;
     public Button saveFilters;
     public TextArea commentArea;
 
-    @Inject
-    private Context context;
+    private ObservableList<Node> views;
 
     public void initialize() {
         setup();
+        this.views = conditionContainer.getChildren();
     }
 
     private void setup() {
         conditionContainer.setPadding(new Insets(5.0));
         conditionContainer.setSpacing(5.0);
 
-        commentArea.setPromptText("Комментарий который бот отправит вместе с условием");
-
+        int viewsCount = Condition.values().length;
         addCondition.setOnMouseClicked(event -> {
-            ConditionView view = new ConditionView();
-            views.add(view);
-            conditionContainer.getChildren().add(view.getView());
+            if (this.views.size() < viewsCount) {
+                ConditionView view = new ConditionView(conditionContainer, context, FOOTBALL);
+                conditionContainer.getChildren().add(view);
+            }
         });
 
         saveFilters.setOnMouseClicked(event -> saveFilter());
     }
 
-    @FXML
     private void saveFilter() {
-        for (ConditionView view : views) {
+        // check only condition rows. don't care about other elements
+        List<ConditionView> conditionViews = views.stream()
+                .filter(ConditionView.class::isInstance)
+                .map(ConditionView.class::cast)
+                .collect(Collectors.toList());
+
+        boolean success = conditionViews.stream().map(ConditionView::validate).reduce(true, (a, b) -> a & b);
+        if (!success) {
+            // TODO: show notification here
+            return;
+        }
+
+        for (ConditionView view : conditionViews) {
             Condition condition = view.getCurrentCondition();
-            String textFieldValue = view.getTextFieldValue();
+            int textFieldValue = view.getTextFieldValue();
             switch (view.getOperator()) {
                 case EQUALS:
                     saveFilter0(Expression.eq(condition, textFieldValue));

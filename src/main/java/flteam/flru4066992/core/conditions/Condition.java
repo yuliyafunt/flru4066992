@@ -1,5 +1,7 @@
 package flteam.flru4066992.core.conditions;
 
+import org.jetbrains.annotations.Nullable;
+
 public enum Condition {
     HOME_TEAM("Хозяева забили"),
     GUEST_TEAM("Гости забили"),
@@ -12,12 +14,13 @@ public enum Condition {
         this.val = val;
     }
 
+    @Nullable
     public static Condition find(String value) {
         for (Condition condition : values()) {
             if (condition.val.equalsIgnoreCase(value)) {
                 return condition;
             }
         }
-        throw new IllegalStateException("Unknown condition: " + value);
+        return null;
     }
 }

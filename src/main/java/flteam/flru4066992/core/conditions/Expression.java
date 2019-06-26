@@ -8,10 +8,10 @@ import static flteam.flru4066992.core.conditions.Operator.*;
 public class Expression {
 
     private final Condition condition;
-    private final String value;
+    private final int value;
     private final Operator operator;
 
-    private Expression(Condition condition, String value, Operator operator) {
+    private Expression(Condition condition, int value, Operator operator) {
         this.condition = condition;
         this.value = value;
         this.operator = operator;
@@ -21,7 +21,7 @@ public class Expression {
         return condition;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
@@ -29,23 +29,23 @@ public class Expression {
         return operator;
     }
 
-    public static Expression eq(Condition condition, String value) {
+    public static Expression eq(Condition condition, int value) {
         return new Expression(condition, value, EQUALS);
     }
 
-    public static Expression greater(Condition condition, String value) {
+    public static Expression greater(Condition condition, int value) {
         return new Expression(condition, value, GT);
     }
 
-    public static Expression greaterOrEq(Condition condition, String value) {
+    public static Expression greaterOrEq(Condition condition, int value) {
         return new Expression(condition, value, GTE);
     }
 
-    public static Expression less(Condition condition, String value) {
+    public static Expression less(Condition condition, int value) {
         return new Expression(condition, value, LT);
     }
 
-    public static Expression lessOrEq(Condition condition, String value) {
+    public static Expression lessOrEq(Condition condition, int value) {
         return new Expression(condition, value, LTE);
     }
 

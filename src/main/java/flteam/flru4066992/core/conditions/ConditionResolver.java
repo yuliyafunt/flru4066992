@@ -5,6 +5,8 @@ import flteam.flru4066992.core.Context;
 import flteam.flru4066992.core.Filter;
 import flteam.flru4066992.core.bot.Notifier;
 import flteam.flru4066992.model.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,6 +14,7 @@ import java.util.Collection;
 
 @Singleton
 public class ConditionResolver {
+    private static final Logger logger = LoggerFactory.getLogger(ConditionResolver.class);
 
     private final Context context;
     private final Notifier notifier;
@@ -30,7 +33,7 @@ public class ConditionResolver {
         }
         for (Match match : matches) {
             if (resolve(match, filter.getExpressions())) {
-                notifier.notify(context.getUsers(), filter.getExpressions(), filter.getComment());
+                notifier.notify(context.getUsers(), match, filter.getExpressions(), filter.getComment());
             }
         }
     }
@@ -40,13 +43,16 @@ public class ConditionResolver {
         for (Expression expression : expressions) {
             switch (expression.getCondition()) {
                 case HOME_TEAM:
+                    success = resolveByScore(expression, match, false);
                     break;
                 case GUEST_TEAM:
+                    success = resolveByScore(expression, match, true);
                     break;
                 case COEFFICIENT:
+                    // TODO: i dont know we really need it or not
                     break;
                 case PERIOD:
-                    success = resolveOperator(expression.getOperator(), expression.getValue(), match.getTime());
+                    success = resolveByPeriod(expression.getOperator(), expression.getValue(), match.getTime());
                     break;
             }
             if (!success) {
@@ -56,22 +62,38 @@ public class ConditionResolver {
         return true;
     }
 
-    private boolean resolveOperator(Operator operator, String value, String period) {
-        Integer expected = Integer.valueOf(value);
-        Integer actual = Integer.valueOf(period);
+    private boolean resolveByScore(Expression expression, Match match, boolean guestTeam) {
+        int expectedValue = expression.getValue();
+        switch (expression.getOperator()) {
+            case EQUALS:
+                return guestTeam ? match.getAwayTeam().getScore() == expectedValue : match.getHomeTeam().getScore() == expectedValue;
+            case GT:
+                return guestTeam ? match.getAwayTeam().getScore() > expectedValue : match.getHomeTeam().getScore() > expectedValue;
+            case LT:
+                return guestTeam ? match.getAwayTeam().getScore() < expectedValue : match.getHomeTeam().getScore() < expectedValue;
+            case GTE:
+                return guestTeam ? match.getAwayTeam().getScore() >= expectedValue : match.getHomeTeam().getScore() >= expectedValue;
+            case LTE:
+                return guestTeam ? match.getAwayTeam().getScore() <= expectedValue : match.getHomeTeam().getScore() <= expectedValue;
+            default:
+                throw new IllegalStateException("Unknown operator: " + expression.getOperator());
+        }
+    }
 
+    private boolean resolveByPeriod(Operator operator, int expected, int period) {
         switch (operator) {
             case EQUALS:
-                return expected.equals(actual);
+                return expected == period;
             case GT:
-                return actual > expected;
+                return period > expected;
             case LT:
-                return actual < expected;
+                return period < expected;
             case GTE:
-                return actual >= expected;
+                return period >= expected;
             case LTE:
-                return actual <= expected;
+                return period <= expected;
             default:
+                logger.error("Unknown operator: {}", operator);
                 return false;
         }
     }

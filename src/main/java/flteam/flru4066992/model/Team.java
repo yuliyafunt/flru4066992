@@ -1,5 +1,7 @@
 package flteam.flru4066992.model;
 
+import java.util.Objects;
+
 public class Team {
 
     private String name;
@@ -34,6 +36,22 @@ public class Team {
 
     public void setCoefficient(double coefficient) {
         this.coefficient = coefficient;
+    }
+
+    /**
+     * ATTENTION: score, coefficient fields not participate in equals and hashcode
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return Objects.equals(name, team.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

@@ -4,6 +4,7 @@ import flteam.flru4066992.core.conditions.Operator;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ToggleComponent {
         return box;
     }
 
+    @Nullable
     public Operator getOperator() {
         ToggleButton btn = toggleButtons.stream()
                 .filter(ToggleButton::isSelected)

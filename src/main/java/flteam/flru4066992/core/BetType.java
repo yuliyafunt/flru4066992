@@ -4,6 +4,6 @@ public enum BetType {
     FOOTBALL,
     HOCKEY,
     VOLLEYBALL,
-    HANDBOLL,
+    HANDBALL,
     BASKETBALL
 }

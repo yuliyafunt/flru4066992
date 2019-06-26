@@ -17,19 +17,21 @@ import java.sql.SQLException;
 public class DatabaseManager {
     private static final Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
 
-    private static final String DB_URL = "./sqlite.db";
+    private static final String DB_URL = "jdbc:sqlite:./sqlite.db";
 
-    private final Dao<User, Long> usersDAO;
+    private final Dao<User, Integer> usersDAO;
 
     public DatabaseManager() {
         try (ConnectionSource source = new JdbcConnectionSource(DB_URL)) {
             TableUtils.createTableIfNotExists(source, User.class);
 
             this.usersDAO = DaoManager.createDao(source, User.class);
-
         } catch (SQLException | IOException e) {
             throw new IllegalStateException("Can't initialize database", e);
         }
     }
-    // TODO: generic injector or getter?
+
+    public Dao<User, Integer> getUsersDAO() {
+        return usersDAO;
+    }
 }

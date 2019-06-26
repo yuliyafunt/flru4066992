@@ -16,10 +16,12 @@ import java.util.concurrent.*;
 public class Reactor {
     private static final Logger logger = LoggerFactory.getLogger(Reactor.class);
 
+//    private static final long TIMEOUT = TimeUnit.MINUTES.toMillis(1);
+    private static final long TIMEOUT = TimeUnit.SECONDS.toMillis(20); // debug only
+
     private final Context context;
     private final Parser footballParser;
     private final ConditionResolver conditionResolver;
-    private static final long TIMEOUT = TimeUnit.MINUTES.toMillis(1);
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(6);
 
@@ -33,27 +35,31 @@ public class Reactor {
     }
 
     public void react() {
-        if (started) {
-            return;
+        if (!started) {
+            runParserThread();
+            started = true;
+            logger.info("Parser thread started");
         }
-        runParserThread();
-        started = true;
     }
 
     private void runParserThread() {
-        Thread thread = new Thread(() -> {
-            try {
-                while (true) {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    // TODO: call all parsers here and wait futures with timeout
                     Future<List<Match>> footballResult = executorService.submit(footballParser);
                     List<Match> matches = footballResult.get();
                     conditionResolver.accept(matches);
-                    Thread.sleep(TIMEOUT);
-                }
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        Thread.sleep(TIMEOUT);
+                    } catch (InterruptedException e) {
 
-        });
-        thread.start();
+                    }
+                }
+            }
+        }).start();
     }
 }
