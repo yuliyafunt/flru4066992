@@ -1,6 +1,7 @@
 package flteam.flru4066992.parser.impl;
 
 import flteam.flru4066992.model.Match;
+import flteam.flru4066992.model.time.Time;
 import flteam.flru4066992.parser.Parser;
 
 import javax.inject.Singleton;
@@ -14,6 +15,11 @@ public class HandballParser extends Parser {
     @Override
     public List<Match> parse() {
         return defaultParse(URL);
+    }
+
+    @Override
+    protected Time getTime(String stringTime) {
+        return null;
     }
 
 }

@@ -1,15 +1,18 @@
 package flteam.flru4066992.model;
 
+import flteam.flru4066992.model.time.Time;
+
 import java.util.Objects;
+import java.util.Optional;
 
 public class Match {
 
     private String league;
     private Team homeTeam;
     private Team awayTeam;
-    private int time;
+    private Time time;
 
-    public Match(String league, Team homeTeam, Team awayTeam, int time) {
+    public Match(String league, Team homeTeam, Team awayTeam, Time time) {
         this.league = league;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -40,11 +43,11 @@ public class Match {
         this.awayTeam = awayTeam;
     }
 
-    public int getTime() {
+    public Time getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(Time time) {
         this.time = time;
     }
 
@@ -73,7 +76,7 @@ public class Match {
                 "league='" + league + '\'' +
                 ", homeTeam=" + homeTeam +
                 ", awayTeam=" + awayTeam +
-                ", time=" + time +
+                ", time=" + Optional.ofNullable(time).map(Time::getTime).orElse(null) +
                 '}';
     }
 

@@ -6,9 +6,11 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import flteam.flru4066992.core.Reactor;
 import flteam.flru4066992.core.bot.Bot;
+import flteam.flru4066992.parser.Browser;
 import flteam.flru4066992.parser.Parser;
 import flteam.flru4066992.parser.impl.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,6 +39,10 @@ public class App extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
 //        /*
         // run bot
@@ -56,7 +62,8 @@ public class App extends Application {
     public void stop() throws Exception {
         super.stop();
         // put here actions before close app
-
+        Browser.close();
+        logger.info("Shutdown successful");
     }
 
     private void checkPay() {

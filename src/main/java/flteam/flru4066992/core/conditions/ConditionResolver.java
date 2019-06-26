@@ -5,6 +5,7 @@ import flteam.flru4066992.core.Context;
 import flteam.flru4066992.core.Filter;
 import flteam.flru4066992.core.bot.Notifier;
 import flteam.flru4066992.model.Match;
+import flteam.flru4066992.model.time.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,21 +81,25 @@ public class ConditionResolver {
         }
     }
 
-    private boolean resolveByPeriod(Operator operator, int expected, int period) {
-        switch (operator) {
-            case EQUALS:
-                return expected == period;
-            case GT:
-                return period > expected;
-            case LT:
-                return period < expected;
-            case GTE:
-                return period >= expected;
-            case LTE:
-                return period <= expected;
-            default:
-                logger.error("Unknown operator: {}", operator);
-                return false;
+    private boolean resolveByPeriod(Operator operator, int expected, Time time) {
+        Integer period = time.asInt();
+        if (period != null) {
+            switch (operator) {
+                case EQUALS:
+                    return expected == period;
+                case GT:
+                    return period > expected;
+                case LT:
+                    return period < expected;
+                case GTE:
+                    return period >= expected;
+                case LTE:
+                    return period <= expected;
+                default:
+                    logger.error("Unknown operator: {}", operator);
+                    return false;
+            }
         }
+        return false;
     }
 }

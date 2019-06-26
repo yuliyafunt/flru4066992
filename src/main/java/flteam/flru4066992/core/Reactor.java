@@ -55,9 +55,7 @@ public class Reactor {
                 } finally {
                     try {
                         Thread.sleep(TIMEOUT);
-                    } catch (InterruptedException e) {
-
-                    }
+                    } catch (InterruptedException e) {}
                 }
             }
         }).start();

@@ -7,9 +7,9 @@ import flteam.flru4066992.core.conditions.Condition;
 import flteam.flru4066992.core.conditions.Operator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -28,6 +28,9 @@ public class ConditionView extends AnchorPane {
     private final TextField score = new TextField();
     private final ToggleComponent toggleComponent = new ToggleComponent();
     private final Button deleteBtn = new Button("Удалить условие");
+    private final Label accepted = new Label("Добавлено");
+
+    private int stateHash = 0;
 
     public ConditionView(VBox container, Context context, BetType type) {
         deleteBtn.setOnMouseClicked(event -> {
@@ -43,18 +46,21 @@ public class ConditionView extends AnchorPane {
         Set<String> availableConditions = Arrays.stream(Condition.values()).map(c -> c.val).collect(toSet());
         choiceBox.setItems(FXCollections.observableArrayList(availableConditions));
         conditionRow.add(choiceBox, 0, 0);
-        conditionRow.add(toggleComponent.getView(), 1, 0);
+        conditionRow.add(toggleComponent, 1, 0);
 
         score.setPrefWidth(50.0);
 
         conditionRow.add(score, 2, 0);
         conditionRow.add(deleteBtn, 3, 0);
+        conditionRow.add(accepted, 4, 0);
 
         getChildren().add(conditionRow);
     }
 
     private void setup() {
         // add setup preferences here
+        accepted.setVisible(false);
+
         conditionRow.setVgap(5.0);
         conditionRow.setHgap(5.0);
 
@@ -70,7 +76,14 @@ public class ConditionView extends AnchorPane {
                     styles.add("error");
                 }
             }
+            accepted.setVisible(stateHash == getComponentHash(getCurrentCondition().val));
         });
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> accepted.setVisible(stateHash == getComponentHash(newValue)));
+//        toggleComponent.setOnMouseClicked(event -> accepted.setVisible(stateHash == getComponentHash()));
+    }
+
+    private int getComponentHash(String conditionValue) {
+        return Objects.hash(conditionValue, toggleComponent.getOperator(), score.getText());
     }
 
     /**
@@ -94,10 +107,19 @@ public class ConditionView extends AnchorPane {
         return Integer.parseInt(score.getText());
     }
 
+
+    public void accept() {
+        accepted.setVisible(true);
+    }
+
     public boolean validate() {
-        return getCurrentCondition() != null
+        boolean v = getCurrentCondition() != null
                 && toggleComponent.getOperator() != null
                 && getTextFieldValue() >= 0;
+        if (v) {
+            stateHash = getComponentHash(getCurrentCondition().val);
+        }
+        return v;
     }
 
     @Override

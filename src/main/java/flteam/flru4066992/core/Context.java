@@ -58,8 +58,10 @@ public class Context {
                 .setComment(comment);
     }
 
-    public void removeFilter(BetType type, Condition condition){
-        filterExpressions.get(type).removeExpressions(condition);
+    public void removeFilter(BetType type, Condition condition) {
+        if (condition != null) {
+            filterExpressions.get(type).removeExpressions(condition);
+        }
     }
 
     @Nullable

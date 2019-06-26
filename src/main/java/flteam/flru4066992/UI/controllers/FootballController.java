@@ -84,6 +84,7 @@ public class FootballController {
                     saveFilter0(Expression.lessOrEq(condition, textFieldValue));
                     break;
             }
+            view.accept();
         }
         context.setFilterComment(FOOTBALL, commentArea.getText());
     }
