@@ -1,8 +1,5 @@
 import flteam.flru4066992.parser.Parser;
-import flteam.flru4066992.parser.impl.BasketballParser;
-import flteam.flru4066992.parser.impl.FootballParser;
-import flteam.flru4066992.parser.impl.TennisParser;
-import flteam.flru4066992.parser.impl.VolleyballParser;
+import flteam.flru4066992.parser.impl.*;
 import org.junit.Test;
 
 public class SeleniumParserTest {
@@ -15,7 +12,9 @@ public class SeleniumParserTest {
                     new FootballParser(),
                     new BasketballParser(),
                     new TennisParser(),
-                    new VolleyballParser()
+                    new VolleyballParser(),
+                    new HandballParser(),
+                    new HockeyParser()
             };
             for (Parser parser : parsers) {
                 parser.parse().forEach(System.out::println);
