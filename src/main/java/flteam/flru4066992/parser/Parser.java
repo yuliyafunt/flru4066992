@@ -90,6 +90,13 @@ public abstract class Parser implements Callable<List<Match>> {
             String home = element.getElementsByClass(HOME_TEAM_CLASSNAME).get(0).text();
             String away = element.getElementsByClass(AWAY_TEAM_CLASSNAME).get(0).text();
             String time = element.getElementsByClass(TIME_CLASSNAME).get(0).text();
+            int timeAsInt = Integer.MAX_VALUE;
+            try {
+                // TODO: "завершено" ?
+                timeAsInt = time.equalsIgnoreCase("перерыв") ? 45 : Integer.parseInt(time);
+            } catch (NumberFormatException e) {
+                // ignore
+            }
             double homeCoeff = 0D;
             double awayCoeff = 0D;
             Elements homeCoeffElements = element.getElementsByClass(HOME_COEFF_CLASSNAME);
@@ -102,7 +109,7 @@ public abstract class Parser implements Callable<List<Match>> {
             }
             Team homeTeam = new Team(home, homeScore, homeCoeff);
             Team awayTeam = new Team(away, awayScore, awayCoeff);
-            Match match = new Match(league, homeTeam, awayTeam, time);
+            Match match = new Match(league, homeTeam, awayTeam, timeAsInt);
             matches.add(match);
         }
         return matches;
