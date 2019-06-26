@@ -11,24 +11,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class Parser implements Callable<List<Match>> {
 
     private static final WebDriver WEB_DRIVER = new ChromeDriver(getChromeOptions());
 
-    private static final String LIVE_MATCHES_CLASSNAME = "event__match--live";
+    private static final String LIVE_MATCHES_CLASSNAME = "active-bet";
     private static final String LEAGUE_HEADER_CLASSNAME = "event__header";
     private static final String LEAGUE_CLASSNAME = "event__title--name";
     private static final String SCORES_CLASSNAME = "event__scores fontBold";
-    private static final String HOME_TEAM_CLASSNAME = "event__participant event__participant--home";
-    private static final String AWAY_TEAM_CLASSNAME = "event__participant event__participant--away";
+    private static final String HOME_TEAM_CLASSNAME = "event__participant--home";
+    private static final String AWAY_TEAM_CLASSNAME = "event__participant--away";
     private static final String TIME_CLASSNAME = "event__stage";
     private static final String HOME_COEFF_CLASSNAME = "o_1";
     private static final String AWAY_COEFF_CLASSNAME = "o_2";
+
+    private static final long TIMEOUT_FOR_LOADING = TimeUnit.MINUTES.toMillis(1);
+    private static final Duration POLLING_INTERVAL = Duration.ofSeconds(1);
 
     private static ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -38,14 +47,27 @@ public abstract class Parser implements Callable<List<Match>> {
 
     public abstract List<Match> parse();
 
-    private String getCoeffHtml(String url) {
+    private synchronized String getCoeffHtml(String url) {
         WEB_DRIVER.get(url);
-        WEB_DRIVER.findElement(By.linkText("Коэффициенты")).click();
+        waitForElementToBeClickable(ExpectedConditions.elementToBeClickable(By.linkText("Коэффициенты")));
         WEB_DRIVER.findElements(By.className("expand"))
-                .forEach(WebElement::click);
-        String html = WEB_DRIVER.getPageSource();
-        WEB_DRIVER.close();
-        return html;
+                .forEach(webElement -> waitForElementToBeClickable(ExpectedConditions.elementToBeClickable(webElement)));
+        return WEB_DRIVER.getPageSource();
+    }
+
+    private synchronized void waitForElementToBeClickable(Function<WebDriver, WebElement> condition) {
+        WebDriverWait webDriverWait = new WebDriverWait(WEB_DRIVER, TIMEOUT_FOR_LOADING);
+        webDriverWait
+                .pollingEvery(POLLING_INTERVAL)
+                .until(condition)
+                .click();
+    }
+
+    /**
+     * Mandatory invoke this before closing app!
+     */
+    public static void closeBrowser() {
+        WEB_DRIVER.quit();
     }
 
     @Override
@@ -57,7 +79,8 @@ public abstract class Parser implements Callable<List<Match>> {
         List<Match> matches = new ArrayList<>();
         String html = getCoeffHtml(url);
         Document document = Jsoup.parse(html);
-        Elements elements = document.getElementsByClass(LIVE_MATCHES_CLASSNAME);
+        Elements elements = document.getElementsByClass(LIVE_MATCHES_CLASSNAME).stream()
+                .map(Element::parent).collect(Collectors.toCollection(Elements::new));
         for (Element element : elements) {
             String league = getLeagueName(element.previousElementSiblings());
             Element score = element.getElementsByClass(SCORES_CLASSNAME).get(0);
