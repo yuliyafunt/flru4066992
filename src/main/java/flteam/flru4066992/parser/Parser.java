@@ -83,8 +83,8 @@ public abstract class Parser implements Callable<List<Match>> {
             String home = getHomeTeam(element);
             String away = getAwayTeam(element);
             Time time = getTime(getStringTime(element));
-            double homeCoeff = getHomeCoeff(element);
-            double awayCoeff = getAwayCoeff(element);
+            double homeCoeff = extractCoefficient(element, HOME_COEFF_CLASSNAME);
+            double awayCoeff = extractCoefficient(element, AWAY_COEFF_CLASSNAME);
             Team homeTeam = new Team(home, homeScore, homeCoeff);
             Team awayTeam = new Team(away, awayScore, awayCoeff);
             Match match = new Match(league, homeTeam, awayTeam, time);
@@ -105,22 +105,16 @@ public abstract class Parser implements Callable<List<Match>> {
         return element.getElementsByClass(AWAY_TEAM_CLASSNAME).get(0).text();
     }
 
-    private double getHomeCoeff(Element element) {
-        double homeCoeff = 0D;
-        Elements homeCoeffElements = element.getElementsByClass(HOME_COEFF_CLASSNAME);
-        if (!homeCoeffElements.isEmpty()) {
-            homeCoeff = Double.parseDouble(homeCoeffElements.get(0).text());
+    private double extractCoefficient(Element element, String className) {
+        Elements coefficientElem = element.getElementsByClass(className);
+        if (coefficientElem.isEmpty()) {
+            return 0;
         }
-        return homeCoeff;
-    }
-
-    private double getAwayCoeff(Element element) {
-        double awayCoeff = 0D;
-        Elements awayCoeffElements = element.getElementsByClass(AWAY_COEFF_CLASSNAME);
-        if (!awayCoeffElements.isEmpty()) {
-            awayCoeff = Double.parseDouble(awayCoeffElements.get(0).text());
+        try {
+            return Double.parseDouble(coefficientElem.get(0).text());
+        } catch (NumberFormatException e) {
+            return 0;
         }
-        return awayCoeff;
     }
 
     protected int getHomeScore(Element element) {
