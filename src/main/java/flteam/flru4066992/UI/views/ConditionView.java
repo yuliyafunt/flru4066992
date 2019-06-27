@@ -1,9 +1,7 @@
 package flteam.flru4066992.UI.views;
 
 import flteam.flru4066992.UI.components.ToggleComponent;
-import flteam.flru4066992.core.BetType;
-import flteam.flru4066992.core.Context;
-import flteam.flru4066992.core.conditions.Condition;
+import flteam.flru4066992.UI.controllers.AbstractController;
 import flteam.flru4066992.core.conditions.Operator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,11 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
 
 public class ConditionView extends AnchorPane {
 
@@ -32,10 +27,11 @@ public class ConditionView extends AnchorPane {
 
     private int stateHash = 0;
 
-    public ConditionView(VBox container, Context context, BetType type) {
+    public ConditionView(AbstractController controller, VBox container, Set<String> availableValues) {
+        choiceBox.setItems(FXCollections.observableArrayList(availableValues));
         deleteBtn.setOnMouseClicked(event -> {
             container.getChildren().remove(this);
-            context.removeFilter(type, getCurrentCondition());
+            controller.delete(getCurrentCondition());
         });
         buildView();
     }
@@ -43,8 +39,6 @@ public class ConditionView extends AnchorPane {
     private void buildView() {
         setup();
 
-        Set<String> availableConditions = Arrays.stream(Condition.values()).map(c -> c.val).collect(toSet());
-        choiceBox.setItems(FXCollections.observableArrayList(availableConditions));
         conditionRow.add(choiceBox, 0, 0);
         conditionRow.add(toggleComponent, 1, 0);
 
@@ -76,13 +70,13 @@ public class ConditionView extends AnchorPane {
                     styles.add("error");
                 }
             }
-            accepted.setVisible(stateHash == getComponentHash(getCurrentCondition().val));
+            accepted.setVisible(stateHash == getComponentHash(getCurrentCondition()));
         });
         choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> accepted.setVisible(stateHash == getComponentHash(newValue)));
 //        toggleComponent.setOnMouseClicked(event -> accepted.setVisible(stateHash == getComponentHash()));
     }
 
-    private int getComponentHash(String conditionValue) {
+    private int getComponentHash(Object conditionValue) {
         return Objects.hash(conditionValue, toggleComponent.getOperator(), score.getText());
     }
 
@@ -95,9 +89,11 @@ public class ConditionView extends AnchorPane {
 
     /**
      * Call {@link #validate()} before use this method
+     *
+     * @return
      */
-    public Condition getCurrentCondition() {
-        return Condition.find(choiceBox.getSelectionModel().getSelectedItem());
+    public String getCurrentCondition() {
+        return choiceBox.getSelectionModel().getSelectedItem();
     }
 
     /**
@@ -117,7 +113,7 @@ public class ConditionView extends AnchorPane {
                 && toggleComponent.getOperator() != null
                 && getTextFieldValue() >= 0;
         if (v) {
-            stateHash = getComponentHash(getCurrentCondition().val);
+            stateHash = getComponentHash(getCurrentCondition());
         }
         return v;
     }

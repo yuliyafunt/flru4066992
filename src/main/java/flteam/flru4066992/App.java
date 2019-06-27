@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import flteam.flru4066992.core.Reactor;
 import flteam.flru4066992.core.bot.Bot;
+import flteam.flru4066992.core.conditions.resolvers.*;
 import flteam.flru4066992.parser.Browser;
 import flteam.flru4066992.parser.Parser;
 import flteam.flru4066992.parser.impl.*;
@@ -26,6 +27,8 @@ import java.time.LocalDate;
 public class App extends Application {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
+    private static final boolean DEBUG = true;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         checkPay();
@@ -41,29 +44,24 @@ public class App extends Application {
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
+            Browser.close();
+            logger.info("Shutdown successful");
             System.exit(0);
         });
 
-//        /*
-        // run bot
-        Bot bot = injector.getInstance(Bot.class);
-        TelegramBotsApi api = new TelegramBotsApi();
-        api.registerBot(bot);
 
-        // starting parsing with timeout
-        Reactor reactor = injector.getInstance(Reactor.class);
-        reactor.react();
-//        */
+        if (!DEBUG) {
+            // run bot
+            Bot bot = injector.getInstance(Bot.class);
+            TelegramBotsApi api = new TelegramBotsApi();
+            api.registerBot(bot);
+
+            // starting parsing with timeout
+            Reactor reactor = injector.getInstance(Reactor.class);
+            reactor.react();
+        }
 
         logger.info("Application started");
-    }
-
-    @Override
-    public void stop() throws Exception {
-        super.stop();
-        // put here actions before close app
-        Browser.close();
-        logger.info("Shutdown successful");
     }
 
     private void checkPay() {
@@ -75,11 +73,11 @@ public class App extends Application {
     private void setupDriver() {
         String driverPath;
         String os = System.getProperty("os.name").toLowerCase();
-        if (os.indexOf("win") >= 0) {
+        if (os.contains("win")) {
             driverPath = "/drivers/chromedriver_win";
-        } else if (os.indexOf("mac") >= 0) {
+        } else if (os.contains("mac")) {
             driverPath = "/drivers/chromedriver_mac";
-        } else if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0) {
+        } else if (os.contains("nix") || os.contains("nux") || os.indexOf("aix") > 0) {
             driverPath = "/drivers/chromedriver";
         } else {
             throw new IllegalStateException("Can't detect OS and initialize chrome driver");
@@ -100,6 +98,13 @@ public class App extends Application {
             bind(Parser.class).annotatedWith(Names.named("Handball")).to(HandballParser.class);
             bind(Parser.class).annotatedWith(Names.named("Hockey")).to(HockeyParser.class);
             bind(Parser.class).annotatedWith(Names.named("Tennis")).to(TennisParser.class);
+
+            bind(ConditionResolver.class).annotatedWith(Names.named("FResolver")).to(FootballResolver.class);
+            bind(ConditionResolver.class).annotatedWith(Names.named("TResolver")).to(TennisResolver.class);
+            bind(ConditionResolver.class).annotatedWith(Names.named("BResolver")).to(BasketResolver.class);
+            bind(ConditionResolver.class).annotatedWith(Names.named("HResolver")).to(HockeyResolver.class);
+            bind(ConditionResolver.class).annotatedWith(Names.named("VResolver")).to(VolleyballResolver.class);
+            bind(ConditionResolver.class).annotatedWith(Names.named("GResolver")).to(HandballResolver.class);
         }
     }
 }

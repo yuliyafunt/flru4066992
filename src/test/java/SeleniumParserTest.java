@@ -18,7 +18,7 @@ public class SeleniumParserTest {
                     new HockeyParser()
             };
             for (Parser parser : parsers) {
-                parser.parse().forEach(System.out::println);
+                parser.parse().getMatches().forEach(System.out::println);
                 System.out.println();
             }
         } finally {
@@ -40,7 +40,7 @@ public class SeleniumParserTest {
             };
             for (int i = 0; i < 100; i++) {
                 for (Parser parser : parsers) {
-                    parser.parse().forEach(System.out::println);
+                    parser.parse().getMatches().forEach(System.out::println);
                     System.out.println();
                 }
             }

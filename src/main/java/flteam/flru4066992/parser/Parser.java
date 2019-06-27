@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class Parser implements Callable<List<Match>> {
+public abstract class Parser implements Callable<ParserResult> {
 
     private static final String LIVE_MATCHES_CLASSNAME = "active-bet";
     private static final String LEAGUE_HEADER_CLASSNAME = "event__header";
@@ -43,7 +43,7 @@ public abstract class Parser implements Callable<List<Match>> {
 
     private static final WebDriverWait WEB_DRIVER_WAIT = new WebDriverWait(Browser.instance(), TIMEOUT_FOR_LOADING);
 
-    public abstract List<Match> parse();
+    public abstract ParserResult parse();
 
     protected abstract Time getTime(String stringTime);
 
@@ -66,7 +66,7 @@ public abstract class Parser implements Callable<List<Match>> {
     }
 
     @Override
-    public List<Match> call() {
+    public ParserResult call() {
         return parse();
     }
 

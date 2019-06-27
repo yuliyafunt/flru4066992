@@ -1,9 +1,10 @@
-package flteam.flru4066992.core.conditions;
+package flteam.flru4066992.core.conditions.resolvers;
 
-import flteam.flru4066992.core.BetType;
 import flteam.flru4066992.core.Context;
-import flteam.flru4066992.core.Filter;
 import flteam.flru4066992.core.bot.Notifier;
+import flteam.flru4066992.core.conditions.Expression;
+import flteam.flru4066992.core.conditions.Operator;
+import flteam.flru4066992.core.conditions.sportspecific.FootballConditions;
 import flteam.flru4066992.model.Match;
 import flteam.flru4066992.model.time.Time;
 import org.slf4j.Logger;
@@ -14,49 +15,41 @@ import javax.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
-public class ConditionResolver {
-    private static final Logger logger = LoggerFactory.getLogger(ConditionResolver.class);
-
-    private final Context context;
-    private final Notifier notifier;
+public class FootballResolver extends ConditionResolver {
+    private static final Logger logger = LoggerFactory.getLogger(FootballResolver.class);
 
     @Inject
-    public ConditionResolver(Context context, Notifier notifier) {
-        this.context = context;
-        this.notifier = notifier;
+    public FootballResolver(Context context, Notifier notifier) {
+        super(context, notifier);
     }
 
-    public synchronized void accept(Collection<Match> matches) {
-        Filter filter = context.getFilters(BetType.FOOTBALL);
-        if (filter == null) {
-            // no filter so no notifications
-            return;
-        }
-        for (Match match : matches) {
-            if (resolve(match, filter.getExpressions())) {
-                notifier.notify(context.getUsers(), match, filter.getExpressions(), filter.getComment());
-            }
-        }
-    }
-
-    private boolean resolve(Match match, Collection<Expression> expressions) {
+    @Override
+    public boolean resolve(Match match, Collection<Expression> expressions) {
         boolean success = false;
         for (Expression expression : expressions) {
-            switch (expression.getCondition()) {
-                case HOME_TEAM:
-                    success = resolveByScore(expression, match, false);
-                    break;
-                case GUEST_TEAM:
-                    success = resolveByScore(expression, match, true);
-                    break;
-                case COEFFICIENT:
-                    // TODO: i dont know we really need it or not
-                    break;
-                case PERIOD:
-                    success = resolveByPeriod(expression.getOperator(), expression.getValue(), match.getTime());
-                    break;
-            }
-            if (!success) {
+            if (expression.getCondition() instanceof FootballConditions) {
+                FootballConditions condition = (FootballConditions) expression.getCondition();
+                if (condition != null) {
+                    switch (condition.get()) {
+                        case HOME_GOAL:
+                            success = resolveByScore(expression, match, false);
+                            break;
+                        case GUEST_GOAL:
+                            success = resolveByScore(expression, match, true);
+                            break;
+                        case COEFFICIENT:
+                            // TODO: i dont know we really need it or not
+                            break;
+                        case TIME:
+                            success = resolveByPeriod(expression.getOperator(), expression.getValue(), match.getTime());
+                            break;
+                    }
+                    if (!success) {
+                        return false;
+                    }
+                }
+            } else {
+                logger.error("Football resolver can resolve only football conditions");
                 return false;
             }
         }

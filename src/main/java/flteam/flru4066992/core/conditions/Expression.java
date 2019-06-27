@@ -1,23 +1,25 @@
 package flteam.flru4066992.core.conditions;
 
 
+import flteam.flru4066992.core.conditions.sportspecific.Conditions;
+
 import java.util.Objects;
 
 import static flteam.flru4066992.core.conditions.Operator.*;
 
 public class Expression {
 
-    private final Condition condition;
+    private final Conditions condition;
     private final int value;
     private final Operator operator;
 
-    private Expression(Condition condition, int value, Operator operator) {
+    private Expression(Conditions condition, int value, Operator operator) {
         this.condition = condition;
         this.value = value;
         this.operator = operator;
     }
 
-    public Condition getCondition() {
+    public Conditions getCondition() {
         return condition;
     }
 
@@ -29,29 +31,29 @@ public class Expression {
         return operator;
     }
 
-    public static Expression eq(Condition condition, int value) {
+    public static Expression eq(Conditions condition, int value) {
         return new Expression(condition, value, EQUALS);
     }
 
-    public static Expression greater(Condition condition, int value) {
+    public static Expression greater(Conditions condition, int value) {
         return new Expression(condition, value, GT);
     }
 
-    public static Expression greaterOrEq(Condition condition, int value) {
+    public static Expression greaterOrEq(Conditions condition, int value) {
         return new Expression(condition, value, GTE);
     }
 
-    public static Expression less(Condition condition, int value) {
+    public static Expression less(Conditions condition, int value) {
         return new Expression(condition, value, LT);
     }
 
-    public static Expression lessOrEq(Condition condition, int value) {
+    public static Expression lessOrEq(Conditions condition, int value) {
         return new Expression(condition, value, LTE);
     }
 
     @Override
     public String toString() {
-        return condition.val + " " + operator.value + " " + value;
+        return condition + " " + operator.value + " " + value;
     }
 
     @Override

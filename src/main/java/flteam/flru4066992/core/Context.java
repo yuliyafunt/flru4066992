@@ -1,8 +1,8 @@
 package flteam.flru4066992.core;
 
 import com.j256.ormlite.dao.Dao;
-import flteam.flru4066992.core.conditions.Condition;
 import flteam.flru4066992.core.conditions.Expression;
+import flteam.flru4066992.core.conditions.sportspecific.Conditions;
 import flteam.flru4066992.db.DatabaseManager;
 import flteam.flru4066992.entity.User;
 import org.jetbrains.annotations.NotNull;
@@ -58,7 +58,7 @@ public class Context {
                 .setComment(comment);
     }
 
-    public void removeFilter(BetType type, Condition condition) {
+    public void removeFilter(BetType type, Conditions condition) {
         if (condition != null) {
             filterExpressions.get(type).removeExpressions(condition);
         }
