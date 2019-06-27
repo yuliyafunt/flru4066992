@@ -48,9 +48,9 @@ public class Context {
         }
     }
 
-    public void addFilter(BetType type, Expression expression) {
+    public void addFilter(BetType type, String tabId, Expression expression) {
         filterExpressions.computeIfAbsent(type, k -> new Filter())
-                .addExpression(expression);
+                .addExpression(tabId, expression);
     }
 
     public void setFilterComment(BetType type, String comment) {
@@ -58,9 +58,9 @@ public class Context {
                 .setComment(comment);
     }
 
-    public void removeFilter(BetType type, Conditions condition) {
+    public void removeFilter(BetType type, String tabId, Conditions condition) {
         if (condition != null) {
-            filterExpressions.get(type).removeExpressions(condition);
+            filterExpressions.get(type).removeExpressions(tabId, condition);
         }
     }
 

@@ -33,30 +33,30 @@ public abstract class AbstractController {
         return conditionViews;
     }
 
-    protected void acceptCondition(ConditionView view, int textFieldValue, Conditions conditionInstance) {
+    protected void acceptCondition(String tabId, ConditionView view, int textFieldValue, Conditions conditionInstance) {
         switch (view.getOperator()) {
             case EQUALS:
-                saveFilter0(Expression.eq(conditionInstance, textFieldValue));
+                saveFilter0(tabId, Expression.eq(conditionInstance, textFieldValue));
                 break;
             case GT:
-                saveFilter0(Expression.greater(conditionInstance, textFieldValue));
+                saveFilter0(tabId, Expression.greater(conditionInstance, textFieldValue));
                 break;
             case LT:
-                saveFilter0(Expression.less(conditionInstance, textFieldValue));
+                saveFilter0(tabId, Expression.less(conditionInstance, textFieldValue));
                 break;
             case GTE:
-                saveFilter0(Expression.greaterOrEq(conditionInstance, textFieldValue));
+                saveFilter0(tabId, Expression.greaterOrEq(conditionInstance, textFieldValue));
                 break;
             case LTE:
-                saveFilter0(Expression.lessOrEq(conditionInstance, textFieldValue));
+                saveFilter0(tabId, Expression.lessOrEq(conditionInstance, textFieldValue));
                 break;
         }
         view.accept();
     }
 
-    private void saveFilter0(Expression expression) {
-        context.addFilter(FOOTBALL, expression);
+    private void saveFilter0(String tabId, Expression expression) {
+        context.addFilter(FOOTBALL, tabId, expression);
     }
 
-    public abstract void delete(String value);
+    public abstract void delete(String tabId, String value);
 }

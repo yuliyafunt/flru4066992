@@ -55,7 +55,6 @@ public class Reactor {
 
 
             /* resolvers */
-
             @Named("FResolver") ConditionResolver footballResolver,
             @Named("TResolver") ConditionResolver tennisResolver,
             @Named("BResolver") ConditionResolver basketResolver,

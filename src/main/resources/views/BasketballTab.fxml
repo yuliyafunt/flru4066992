@@ -1,9 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.control.TabPane?>
-<TabPane fx:controller="flteam.flru4066992.UI.controllers.BasketballController" prefHeight="360.0" prefWidth="507.0"
-         xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
-
-
-</TabPane>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:controller="flteam.flru4066992.UI.controllers.BasketballController" fx:id="rootPane" prefHeight="409.0"
+            prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <TextArea fx:id="commentArea" layoutX="14.0" layoutY="342.0" prefHeight="56.0" prefWidth="467.0"
+              promptText="Комментарий который бот отправит вместе с условием"/>
+    <Button fx:id="saveFilters" layoutX="504.0" layoutY="343.0" mnemonicParsing="false" prefHeight="55.0"
+            prefWidth="178.0" text="Применить фильтры"/>
+    <TabPane fx:id="tabPane" layoutY="34.0" prefHeight="308.0" prefWidth="705.0">
+        <Tab fx:id="tab1" text="Условие 1" closable="false">
+            <AnchorPane prefHeight="277.0" prefWidth="705.0">
+                <children>
+                    <Button fx:id="b1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0"
+                            prefWidth="151.0" text="Добавить условие И"/>
+                    <ScrollPane layoutX="14.0" layoutY="47.0" prefHeight="223.0" prefWidth="667.0">
+                        <content>
+                            <VBox fx:id="v1" spacing="5">
+                                <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </children>
+            </AnchorPane>
+        </Tab>
+        <Tab fx:id="tab2" text="Условие 2" closable="false">
+            <AnchorPane prefHeight="277.0" prefWidth="705.0">
+                <children>
+                    <Button fx:id="b2" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0"
+                            prefWidth="151.0" text="Добавить условие И"/>
+                    <ScrollPane layoutX="14.0" layoutY="47.0" prefHeight="223.0" prefWidth="667.0">
+                        <content>
+                            <VBox fx:id="v2" spacing="5">
+                                <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </children>
+            </AnchorPane>
+        </Tab>
+        <Tab fx:id="tab3" text="Условие 3" closable="false">
+            <AnchorPane prefHeight="277.0" prefWidth="705.0">
+                <children>
+                    <Button fx:id="b3" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0"
+                            prefWidth="151.0" text="Добавить условие И"/>
+                    <ScrollPane layoutX="14.0" layoutY="47.0" prefHeight="223.0" prefWidth="667.0">
+                        <content>
+                            <VBox fx:id="v3" spacing="5">
+                                <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </children>
+            </AnchorPane>
+        </Tab>
+        <Tab fx:id="tab4" text="Условие 4" closable="false">
+            <AnchorPane prefHeight="277.0" prefWidth="705.0">
+                <children>
+                    <Button fx:id="b4" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0"
+                            prefWidth="151.0" text="Добавить условие И"/>
+                    <ScrollPane layoutX="14.0" layoutY="47.0" prefHeight="223.0" prefWidth="667.0">
+                        <content>
+                            <VBox fx:id="v4" spacing="5">
+                                <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </children>
+            </AnchorPane>
+        </Tab>
+        <Tab fx:id="tab5" text="Условие 5" closable="false">
+            <AnchorPane prefHeight="277.0" prefWidth="705.0">
+                <children>
+                    <Button fx:id="b5" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0"
+                            prefWidth="151.0" text="Добавить условие И"/>
+                    <ScrollPane layoutX="14.0" layoutY="47.0" prefHeight="223.0" prefWidth="667.0">
+                        <content>
+                            <VBox fx:id="v5" spacing="5">
+                                <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </children>
+            </AnchorPane>
+        </Tab>
+        <Tab fx:id="tab6" text="Условие 6" closable="false">
+            <AnchorPane prefHeight="277.0" prefWidth="705.0">
+                <children>
+                    <Button fx:id="b6" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0"
+                            prefWidth="151.0" text="Добавить условие И"/>
+                    <ScrollPane layoutX="14.0" layoutY="47.0" prefHeight="223.0" prefWidth="667.0">
+                        <content>
+                            <VBox fx:id="v6" spacing="5">
+                                <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </children>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+</AnchorPane>

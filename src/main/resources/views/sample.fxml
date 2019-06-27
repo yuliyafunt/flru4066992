@@ -3,7 +3,8 @@
 <?import javafx.scene.control.*?>
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0"
          prefWidth="721.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.999-ea"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="flteam.flru4066992.UI.MainController">
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="flteam.flru4066992.UI.MainController"
+         fx:id="tabPane">
     <tabs>
         <Tab text="Футбол">
             <content>

@@ -25,13 +25,17 @@ public class ConditionView extends AnchorPane {
     private final Button deleteBtn = new Button("Удалить условие");
     private final Label accepted = new Label("Ок!");
 
+    {
+        accepted.setStyle("-fx-text-fill: green");
+    }
+
     private int stateHash = 0;
 
     public ConditionView(AbstractController controller, VBox container, Set<String> availableValues) {
         choiceBox.setItems(FXCollections.observableArrayList(availableValues));
         deleteBtn.setOnMouseClicked(event -> {
             container.getChildren().remove(this);
-            controller.delete(getCurrentCondition());
+            controller.delete(container.getId(), getCurrentCondition());
         });
         buildView();
     }

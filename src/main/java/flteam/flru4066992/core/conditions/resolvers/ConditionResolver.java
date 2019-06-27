@@ -30,9 +30,12 @@ public abstract class ConditionResolver {
             return;
         }
         for (Match match : matches) {
-            if (resolve(match, filter.getExpressions())) {
-                notifier.notify(context.getUsers(), match, filter.getExpressions(), filter.getComment());
+            for (Collection<Expression> expression : filter.getExpressions()) {
+                if (resolve(match, expression)) {
+                    notifier.notify(context.getUsers(), match, expression, filter.getComment());
+                }
             }
+
         }
     }
 

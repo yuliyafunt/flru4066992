@@ -39,6 +39,7 @@ public class App extends Application {
         Injector injector = Guice.createInjector(new AppModule());
         loader.setControllerFactory(injector::getInstance);
         Parent root = loader.load();
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -74,7 +75,7 @@ public class App extends Application {
         String driverPath;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
-            driverPath = "/drivers/chromedriver_win";
+            driverPath = "/drivers/chromedriver_win.exe";
         } else if (os.contains("mac")) {
             driverPath = "/drivers/chromedriver_mac";
         } else if (os.contains("nix") || os.contains("nux") || os.indexOf("aix") > 0) {
