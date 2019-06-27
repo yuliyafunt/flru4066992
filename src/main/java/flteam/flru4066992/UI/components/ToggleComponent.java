@@ -1,6 +1,7 @@
 package flteam.flru4066992.UI.components;
 
 import flteam.flru4066992.core.conditions.Operator;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.Nullable;
@@ -12,10 +13,13 @@ public class ToggleComponent extends HBox {
 
     private final List<ToggleButton> toggleButtons = new ArrayList<>();
 
-    public ToggleComponent() {
+    public ToggleComponent(ChangeListener<Boolean> mouseEvent) {
         for (Operator operator : Operator.values()) {
             ToggleButton btn = new ToggleButton(operator.value);
-            btn.setOnMouseClicked(event -> handleToggle(btn));
+            btn.setOnMouseClicked(event -> {
+                handleToggle(btn);
+            });
+            btn.selectedProperty().addListener(mouseEvent);
             toggleButtons.add(btn);
         }
         getChildren().addAll(toggleButtons);

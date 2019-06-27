@@ -21,9 +21,9 @@ public class ConditionView extends AnchorPane {
     private final GridPane conditionRow = new GridPane();
     private final ChoiceBox<String> choiceBox = new ChoiceBox<>();
     private final TextField score = new TextField();
-    private final ToggleComponent toggleComponent = new ToggleComponent();
+    private final ToggleComponent toggleComponent = new ToggleComponent((observable, oldValue, newValue) -> recalculateState());
     private final Button deleteBtn = new Button("Удалить условие");
-    private final Label accepted = new Label("Добавлено");
+    private final Label accepted = new Label("Ок!");
 
     private int stateHash = 0;
 
@@ -70,10 +70,15 @@ public class ConditionView extends AnchorPane {
                     styles.add("error");
                 }
             }
-            accepted.setVisible(stateHash == getComponentHash(getCurrentCondition()));
+            recalculateState();
         });
-        choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> accepted.setVisible(stateHash == getComponentHash(newValue)));
-//        toggleComponent.setOnMouseClicked(event -> accepted.setVisible(stateHash == getComponentHash()));
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> recalculateState());
+    }
+
+    private int recalculateState() {
+        int componentHash = getComponentHash(getCurrentCondition());
+        accepted.setVisible(stateHash == componentHash);
+        return componentHash;
     }
 
     private int getComponentHash(Object conditionValue) {
@@ -113,7 +118,7 @@ public class ConditionView extends AnchorPane {
                 && toggleComponent.getOperator() != null
                 && getTextFieldValue() >= 0;
         if (v) {
-            stateHash = getComponentHash(getCurrentCondition());
+            stateHash = recalculateState();
         }
         return v;
     }
